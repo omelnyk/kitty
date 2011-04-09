@@ -6,7 +6,19 @@ kitty - greedy backtracking-based Sudoku solver
 .SH DESCRIPTION
 Kitty is a tool for solving Sudoku puzzles. Kitty reads the puzzle from standard input and writes the solution to standard output. If puzzle has no solutions, output is a single line containing "No solution".
 .PP
-Puzzle (or its solution) consists of 81 numbers, splitted over 9 lines. Numbers in each line are separated by spaces. Every number must be in range 0-9, where 0 stands for an empty cell and numbers 1-9 are used for prefilled cells.
+Puzzle (or its solution) consists of 81 numbers, splitted over 9 lines. Numbers in each line are separated by spaces. Every number must be in range 0-9 (0 means an empty cell and can appear in problem but not in solution), for example:
+.PP
+.nf
+1 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+.fi
 .SH EXAMPLE
 .nf
 kitty < input.txt > output.txt
@@ -14,8 +26,6 @@ kitty < input.txt > output.txt
 .SH WEB SITE
 Visit http://omelnyk.net/projects/kitty/ for details
 .SH COPYRIGHT
-Copyright © 2008 Olexandr Melnyk <me@omelnyk.net>. Kitty is open source 
-software. You 
-can redistribute and/or modify it under the terms of BSD License. See the COPYING file included with this software package for more details regarding distribution.
+Copyright © 2008 Olexandr Melnyk. Kitty is open source software. You can redistribute and/or modify it under the terms of GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>. See the COPYING file included with this software package for more details regarding distribution.
 .PP
 Kitty is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.

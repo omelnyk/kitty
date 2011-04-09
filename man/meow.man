@@ -1,12 +1,24 @@
-.TH "meow"
+.TH "meow" (1)
 .SH NAME
 meow - Sudoku solution checking tool
 .SH SYNOPSIS
 .B meow
 .SH DESCRIPTION
-Meow is a tool that checks whether specified solution of specified Sudoku puzzle is correct. Kitty reads the puzzle and its solution from standard input. Depending on whether the solution is correct, a single line containing "Right" or "Wrong" is written to standard output.
+Meow is a tool that checks whether specified solution of specified Sudoku puzzle is correct. Kitty reads the puzzle and its solution from standard input (in this exact order). Depending on whether the solution is correct, a single line containing "Right" or "Wrong" is written to standard output.
 .PP
-Puzzle (or its solution) consists of 81 numbers, splitted over 9 lines. Numbers in each line are separated by spaces. Every number must be in range 0-9, where 0 stands for an empty cell and numbers 1-9 are used for filled cells.
+Puzzle (or its solution) consists of 81 numbers, splitted over 9 lines. Numbers in each line are separated by spaces. Every number must be in range 0-9 (0 means an empty cell and can appear in problem but not in solution), for example:
+.PP
+.nf
+1 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+.fi
 .SH EXAMPLE
 .nf
 cat problem.txt solution.txt | meow
@@ -14,6 +26,6 @@ cat problem.txt solution.txt | meow
 .SH WEB SITE
 Visit http://omelnyk.net/projects/kitty/ for details
 .SH COPYRIGHT
-Copyright © 2008 Olexandr Melnyk. Meow is open source software. You can redistribute and/or modify it under the terms of BSD License. See the COPYING file included with this software package for more details regarding distribution.
-
-Kitty is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
+Copyright © 2008 Olexandr Melnyk. Meow is open source software. You can redistribute and/or modify it under the terms of GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>. See the COPYING file included with this software package for more details regarding distribution.
+.PP
+Meow is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
