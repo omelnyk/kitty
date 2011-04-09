@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -63,42 +65,42 @@ point most_certain_point(board puzzle, board_variants vars)
 	{
 		for (int j = 0; j < 9; j++)
 		{
-			if (puzzle[i][j] != 0)
-			{
-				continue;
-			}
+            if (puzzle[i][j] != 0)
+            {
+                continue;
+            }
 
-			if (mins.empty() || vars[i][j].unrestricted_count < vars[mins[0].x][mins[0].y].unrestricted_count)
-			{
-				improvement = 1;
-			}
-			else if (vars[i][j].unrestricted_count == vars[mins[0].x][mins[0].y].unrestricted_count)
-			{
-				improvement = 0;
-			}
-			else
-			{
-				improvement = -1;
-			}
+            if (mins.empty() || vars[i][j].unrestricted_count < vars[mins[0].x][mins[0].y].unrestricted_count)
+            {
+                improvement = 1;
+            }
+            else if (vars[i][j].unrestricted_count == vars[mins[0].x][mins[0].y].unrestricted_count)
+            {
+                improvement = 0;
+            }
+            else
+            {
+                improvement = -1;
+            }
 
-			if (improvement > 0)
-			{
-				mins.clear();
-			}
+            if (improvement > 0)
+            {
+                mins.clear();
+            }
 
-			if (improvement >= 0)
-			{
-				point p(i, j);
-				mins.push_back(p);
-			}
+            if (improvement >= 0)
+            {
+                point p(i, j);
+    		    mins.push_back(p);
+            }
 		}
 	}
 
-	if (mins.empty())
-	{
-		point p(-1, -1);
-		return p;
-	}
+    if (mins.empty())
+    {
+        point p(-1, -1);
+        return p;
+    }
 
 	return mins[rand() % mins.size()];
 }
@@ -109,11 +111,11 @@ point most_certain_point(board puzzle, board_variants vars)
  */
 void restrict_value(cell_variants &var, int value)
 {
-	if (var.restrictions[value] == 0)
-	{
-		var.unrestricted_count--;
-	}
-	var.restrictions[value]++;
+    if (var.restrictions[value] == 0)
+    {
+        var.unrestricted_count--;
+    }
+    var.restrictions[value]++;
 }
 
 /**
@@ -122,11 +124,11 @@ void restrict_value(cell_variants &var, int value)
  */
 void unrestrict_value(cell_variants &var, int value)
 {
-	if (var.restrictions[value] - 1 == 0)
-	{
-		var.unrestricted_count++;
-	}
-	var.restrictions[value]--;
+    if (var.restrictions[value] - 1 == 0)
+    {
+        var.unrestricted_count++;
+    }
+    var.restrictions[value]--;
 }
 
 /**
@@ -148,10 +150,10 @@ void set_cell(board puzzle, board_variants vars, int x, int y, int value)
 		restrict_value(vars[p.x][p.y], value);
 	}
 
-	for (int i = 1; i < 10; i++)
-	{
-		restrict_value(vars[x][y], i);
-	}
+    for (int i = 1; i < 10; i++)
+    {
+        restrict_value(vars[x][y], i);
+    }
 }
 
 /**
@@ -172,10 +174,10 @@ void unset_cell(board puzzle, board_variants vars, int x, int y)
 		unrestrict_value(vars[p.x][p.y], value);
 	}
 
-	for (int i = 1; i < 10; i++)
-	{
-		unrestrict_value(vars[x][y], i);
-	}
+    for (int i = 1; i < 10; i++)
+    {
+        unrestrict_value(vars[x][y], i);
+    }
 }
 
 /**
@@ -183,13 +185,13 @@ void unset_cell(board puzzle, board_variants vars, int x, int y)
  */
 void shuffle(vector<int> nums)
 {
-	int a, b, count = nums.size();
-	for (int i = 0; i < count; i++)
-	{
-		a = rand() % count;
-		b = rand() % count;
-		swap(nums[a], nums[b]);
-	}
+    int a, b, count = nums.size();
+    for (int i = 0; i < count; i++)
+    {
+        a = rand() % count;
+        b = rand() % count;
+        swap(nums[a], nums[b]);
+    }
 }
 
 /**
@@ -200,9 +202,9 @@ void shuffle(vector<int> nums)
 bool backtrack(board puzzle, board_variants vars, int depth)
 {
 	point p = most_certain_point(puzzle, vars);
-	int count;
+    int count;
 	vector<int> values;
-	values.reserve(9);
+    values.reserve(9);
 
 	if (p.x == -1 && p.y == -1)
 	{
@@ -224,7 +226,7 @@ bool backtrack(board puzzle, board_variants vars, int depth)
 
 	sort(values.begin(), values.end());
 
-	count = values.size();
+    count = values.size();
 	for (int i = 0; i < count; i++)
 	{
 		set_cell(puzzle, vars, p.x, p.y, values[i]);
@@ -252,7 +254,7 @@ bool solve(board problem, board solution)
 	{
 		for (int j = 0; j < 9; j++)
 		{
-			solution[i][j] = 0;
+		    solution[i][j] = 0;
 			vars[i][j].unrestricted_count = 9;
 			for (int k = 0; k < 10; k++)
 			{
@@ -282,11 +284,13 @@ int main(void)
 {
 	board problem, solution;
 
+    srand(time(NULL));
+
 	for (int i = 0; i < 9; i++)
 	{
 		for (int j = 0; j < 9; j++)
 		{
-			cin >> problem[i][j];
+            cin >> problem[i][j];
 			if (problem[i][j] < 0 || problem[i][j] > 9)
 			{
 				cout << "Error: bad input" << endl;
