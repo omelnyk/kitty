@@ -1,3 +1,21 @@
+/**
+ * Meow - Sudoku solution checking tool
+ * Copyright (C) 2008  Olexandr Melnyk <me@omelnyk.net>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <iostream>
 #include "kitty_types.h"
 
@@ -21,7 +39,6 @@ bool check_cells(board solution)
 		{
 			if ((solution[x][y] <= 0) || (solution[x][y] > 9))
 			{
-				cout << "CS(" << x << ", " << y << ")" << endl;
 				return false;
 			}
 		}
@@ -48,7 +65,6 @@ bool check_rows(board solution)
 		{
 			if (used_numbers[solution[x][y]])
 			{
-				cout << "CR(" << x << ", " << y << ")" << endl;
 				return false;
 			}
 
@@ -77,7 +93,6 @@ bool check_columns(board solution)
 		{
 			if (used_numbers[solution[x][y]])
 			{
-				cout << "CC(" << x << ", " << y << ")" << endl;
 				return false;
 			}
 
@@ -85,7 +100,7 @@ bool check_columns(board solution)
 		}
 	}
 
-    return true;
+	return true;
 }
 
 /**
@@ -108,7 +123,6 @@ bool check_boxes(board solution)
 			int y = (i / 3) * 3 + j / 3;
 			if (used_numbers[solution[x][y]])
 			{
-				cout << "CB(" << x << ", " << y << ")" << endl;
 				return false;
 			}
 
@@ -136,13 +150,12 @@ bool check_correspondence(board problem, board solution)
 
 			if (solution[x][y] != problem[x][y])
 			{
-				cout << "C~(" << x << ", " << y << ")" << endl;
 				return false;
 			}
 		}
 	}
 
-	return true;
+    return true;
 }
 
 /**
@@ -179,26 +192,6 @@ int main(void)
 		}
 	}
 
-	/*
-	for (int i = 0; i < 9; i++)
-	{
-		for (int j = 0; j < 9; j++)
-		{
-			cout << problem[i][j] << ' ';
-		}
-		cout << endl;
-	}
-
-	for (int i = 0; i < 9; i++)
-	{
-		for (int j = 0; j < 9; j++)
-		{
-			cout << solution[i][j] << ' ';
-		}
-		cout << endl;
-	}
-	*/
-
 	if (is_solution(problem, solution))
 	{
 		cout << "Right" << endl;
@@ -210,3 +203,4 @@ int main(void)
 
 	return 0;
 }
+

@@ -1,3 +1,21 @@
+/**
+ * Kitty - greedy backtracking-based Sudoku solver
+ * Copyright (C) 2008  Olexandr Melnyk <me@omelnyk.net>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -38,32 +56,51 @@ point get_box_cell(int box_id, int cell_id)
  */
 point most_certain_point(board puzzle, board_variants vars)
 {
-	point min(0, 0);
-	bool found = false;
+	vector<point> mins;
+    int improvement;
 
 	for (int i = 0; i < 9; i++)
 	{
 		for (int j = 0; j < 9; j++)
 		{
-			if ((puzzle[i][j] != 0))
+			if (puzzle[i][j] != 0)
 			{
 				continue;
 			}
-			if (!found)
+
+			if (mins.empty() || vars[i][j].unrestricted_count < vars[mins[0].x][mins[0].y].unrestricted_count)
 			{
-				min.x = i;
-				min.y = j;
-				found = true;
+				improvement = 1;
 			}
-			else if ((vars[i][j].unrestricted_count < vars[min.x][min.y].unrestricted_count))
+			else if (vars[i][j].unrestricted_count == vars[mins[0].x][mins[0].y].unrestricted_count)
 			{
-				min.x = i;
-				min.y = j;
+				improvement = 0;
+			}
+			else
+			{
+				improvement = -1;
+			}
+
+			if (improvement > 0)
+			{
+				mins.clear();
+			}
+
+			if (improvement >= 0)
+			{
+				point p(i, j);
+				mins.push_back(p);
 			}
 		}
 	}
 
-	return min;
+	if (mins.empty())
+	{
+		point p(-1, -1);
+		return p;
+	}
+
+	return mins[rand() % mins.size()];
 }
 
 /**
@@ -142,6 +179,20 @@ void unset_cell(board puzzle, board_variants vars, int x, int y)
 }
 
 /**
+ * Shuffles specified vector of integer numbers
+ */
+void shuffle(vector<int> nums)
+{
+	int a, b, count = nums.size();
+	for (int i = 0; i < count; i++)
+	{
+		a = rand() % count;
+		b = rand() % count;
+		swap(nums[a], nums[b]);
+	}
+}
+
+/**
  * Solves specified puzzle using a greedy recursive backtracking
  * algorithm; vars should be set to initial board status before
  * call
@@ -149,12 +200,18 @@ void unset_cell(board puzzle, board_variants vars, int x, int y)
 bool backtrack(board puzzle, board_variants vars, int depth)
 {
 	point p = most_certain_point(puzzle, vars);
+	int count;
 	vector<int> values;
 	values.reserve(9);
 
+	if (p.x == -1 && p.y == -1)
+	{
+		return true;
+	}
+
 	if (vars[p.x][p.y].unrestricted_count == 0)
 	{
-		return (puzzle[p.x][p.y] != 0);
+		return false;
 	}
 
 	for (int i = 1; i < 10; i++)
@@ -167,7 +224,8 @@ bool backtrack(board puzzle, board_variants vars, int depth)
 
 	sort(values.begin(), values.end());
 
-	for (int i = 0; i < values.size(); i++)
+	count = values.size();
+	for (int i = 0; i < count; i++)
 	{
 		set_cell(puzzle, vars, p.x, p.y, values[i]);
 		if (backtrack(puzzle, vars, depth + 1))
@@ -229,6 +287,11 @@ int main(void)
 		for (int j = 0; j < 9; j++)
 		{
 			cin >> problem[i][j];
+			if (problem[i][j] < 0 || problem[i][j] > 9)
+			{
+				cout << "Error: bad input" << endl;
+				return -1;
+			}	
 		}
 	}
 
@@ -241,7 +304,7 @@ int main(void)
 				cout << solution[i][j];
 				if (j != 8)
 				{
-					cout << ' ';
+				    cout << ' ';
 				}
 			}
 			cout << endl;
