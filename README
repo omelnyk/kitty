@@ -1,11 +1,55 @@
 *******************************************************************************
-* Kitty Readme File                                                           *
+* Kitty - greedy backtracking-based sudoku solver                             *
+* Copyright (C) 2008  Olexandr Melnyk <me@omelnyk.net>                        *
 *                                                                             *
-* Copyright 2008, Olexandr Melnyk <me@omelnyk.net>                            *
-* Program licensed under the terms of BSD License (see COPYING for details)   * 
+* This program is free software: you can redistribute it and/or modify        *
+* it under the terms of the GNU General Public License as published by        *
+* the Free Software Foundation, either version 3 of the License, or           *
+* (at your option) any later version.                                         *
 *                                                                             *
-* You can visit project website at: http://omelnyk.net/projects/kitty/        *
+* This program is distributed in the hope that it will be useful,             *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+* GNU General Public License for more details.                                *
+*                                                                             *
+* You should have received a copy of the GNU General Public License           *
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.       *
 *******************************************************************************
 
+=== 1. INSTALLATION ===
 
+In order to install Kitty, you can use the traditional chain of commands on UNIX-like operating systems:
 
+./configure
+make
+make install
+
+=== 2. USAGE ===
+
+Kitty package consists of two command-line utilities: kitty and meow. First one is a tool for solving sudoku puzzles and second one is a tool for verification that solution is correct.
+
+Both kitty and meow use straight-forward puzzle format for input/output, where zeroes stand for empty cells (they can appear only in input, but not output) and numbers from 1 to 9 stand for themselves, eg.:
+
+1 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+
+To solve a puzzle, you can save it in a file input.txt, and then call kitty as follows:
+
+kitty < input.txt > output.txt
+
+If puzzle has a solution, it will be stored in output.txt, else it output.txt will contain "No solution".
+
+To verify that grid stored in file output.txt is a solution of puzzle stored in file input.txt, you can use meow as follows:
+
+cat input.txt output.txt | meow
+
+== 3. WEB SITE ==
+
+You can visit Kitty web site at http://omelnyk.net/projects/kitty/
