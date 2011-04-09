@@ -1,17 +1,28 @@
-CXX=c++
+CXX=g++
+CC=g++
 CXXFLAGS=
+LDFLAGS=
+BINDIR=/usr/local/bin
+MANDIR=/usr/local/man/man1
+
+all: kitty kittychk
 
 kitty: kitty.o kitty_types.o
-	${CXX} kitty.o kitty_types.o -o kitty
 
-kittychk: kittychk.o kity_types.o
-	${CXX} kittychk.o kitty_types.o -o kittychk
+meow: meow.o kitty_types.o
 
 kitty.o: kitty.cpp kitty_types.h
-	${CXX} ${CXXFLAGS} -c kitty.cpp -o kitty.o
 
-kittychk.o: kittychk.cpp kitty_types.h
-	${CXX} ${CXXFLAGS} -c kittychk.cpp -o kittychk.o
+meow.o: meow.cpp kitty_types.h
 
 kitty_types.o: kitty_types.cpp
-	${CXX} ${CXXFLAGS} -c kitty_types.cpp -o kitty_types.o
+
+clean:
+	rm -f kitty.o meow.o kitty_types.o kitty meow
+
+install: kitty meow
+	install -c -o ${OWNER} -g ${GROUP} -m 755 kitty ${BINDIR}
+	install -c -o ${OWNER} -g ${GROUP} -m 755 meow ${BINDIR}
+	install -c -o ${OWNER} -g ${GROUP} -m 644 kitty.man ${MANDIR}/kitty.1
+	install -c -o ${OWNER} -g ${GROUP} -m 644 meow.man ${MANDIR}/meow.1
+
